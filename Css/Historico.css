@@ -1,0 +1,31 @@
+body {
+    font-size: 1.2rem;
+}
+
+.form-select,
+.form-label {
+    font-size: 1.25rem;
+}
+
+.table th,
+.table td {
+    font-size: 1.15rem;
+    padding: 1rem;
+}
+
+h4 {
+    font-size: 1.75rem;
+}
+
+button.btn {
+    font-size: 1.2rem;
+    padding: 0.75rem 2rem;
+}
+
+.select-container {
+    margin-bottom: 2rem;
+}
+
+.Sala_Marcada, .Dia_Marcado, .Horario{
+    text-align: center;
+}

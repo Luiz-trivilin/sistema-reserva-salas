@@ -1,0 +1,213 @@
+/* Ajustes gerais para o Calendário */
+.calendario {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Cabeçalho do calendário */
+.calendario header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f1f1f1;
+}
+
+/* Botões de navegação (anterior/próximo) */
+.btn-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
+    border-radius: 50%;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* Estilizando a tabela do calendário */
+table.table {
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+th {
+    background-color: #f1f1f1;
+    color: #666;
+}
+
+.dia-atual {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50%;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 40px;
+    border-radius: 10px;
+    width: 50%;
+    border: 1px solid #888;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.closeError {
+    color: #aaa;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.closeError:hover,
+.closeError:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+Calendario table .dia-atual{
+    background: #00addf;
+    color: #f9f9f9;
+}
+
+/* Estilo para os dias do mês anterior e próximo */
+.Calendario .mes-anterior, .Calendario .mes-proximo, .Calendario .fim_de_semana {
+    color: #a8a8a8;
+}
+
+/* Alterando o fundo dos dias no mês anterior e próximo ao passar o mouse */
+.Calendario .mes-anterior:hover, .Calendario .mes-proximo:hover, .Calendario .fim_de_semana:hover {
+    background-color: #e3e3e3;
+}
+
+/* Estilizando as células quando o mouse passa por cima */
+.Calendario tbody td {
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.Calendario tbody td:hover {
+    background-color: rgba(0, 173, 223, 0.8);
+    color: #fff;
+    border-radius: 50%;
+}
+
+/* Estilo para o evento na célula (pequeno ponto) */
+.event:after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    margin: -3.5px 0 0 -3.5px;
+    background-color: #00addf;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilo para o ponto do evento quando o mouse passa por cima */
+.event:hover::after {
+    background-color: #f9f9f9;
+}
+
+/* Destaque para o ponto do evento no dia atual */
+.event.dia-atual::after {
+    background-color: #f9f9f9;
+}
+
+/* Formulários e botões na parte inferior */
+.d-flex .btn {
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #138496;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+}

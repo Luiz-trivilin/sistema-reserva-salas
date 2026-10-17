@@ -1,7 +1,8 @@
 <?php
-include("verificar_sessao.php");
-include("comum.php");
-include("metadados.php");
+
+require_once 'verificar_sessao.php';
+require_once 'comum.php';
+require_once 'metadados.php';
 ?>
 
 <!DOCTYPE html>
@@ -28,10 +29,10 @@ include("metadados.php");
             <select id="professor" name="professor" class="form-select">
                 <option value="" id="default-option" style="display: none;">-- Selecione o Professor --</option>
                 <?php
-                $sql = 'SELECT nomecompleto, numfuncionario, tipo FROM utilizador';
+                $sql = 'SELECT nomecompleto, numfuncionario, tipo, Valido FROM utilizador';
                 $rs = consultarBD($sql);
                 foreach ($rs as $registo) {
-                    if ($registo['tipo'] === 1) {
+                    if ((int)$registo['tipo'] === 1) {
                         echo '<option value="' . $registo['numfuncionario'] . '">' . $registo['nomecompleto'] . '</option>';
                     }
                 }

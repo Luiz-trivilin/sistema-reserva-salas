@@ -1,6 +1,7 @@
 <?php
 require_once("verificar_sessao.php");
 require_once("comum.php");
+if ((int)($_SESSION['tipo'] ?? -1) !== 0) { http_response_code(403); exit('Sem permissão'); }
 ?>
 
 <!DOCTYPE html>
@@ -24,17 +25,18 @@ require_once("comum.php");
                 <tr>
                     <th>Utilizador</th>
                     <th>Tipo</th>
-                    <th>Eliminar</th>
+                    <th>Estado / Ação</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $sql = 'SELECT numfuncionario, nomecompleto, tipo FROM utilizador ORDER BY nomecompleto ASC';
+                $sql = 'SELECT numfuncionario, nomecompleto, tipo, valido FROM utilizador ORDER BY nomecompleto ASC';
                 $rs = consultarBD($sql);
                 foreach ($rs as $registo) {
                     $idutilizador = $registo['numfuncionario'];
                     $utilizador = $registo['nomecompleto'];
                     $tipo = $registo['tipo'];
+                    $ativo = (int)$registo['valido'] === 1;
 
                     $tipoTexto = match ($tipo) {
                         0 => '<i class="bi bi-shield-lock-fill text-danger me-1"></i>Administrador',
@@ -49,8 +51,10 @@ require_once("comum.php");
                             <?php if ($_SESSION['idutilizador'] != $idutilizador) : ?>
                                 <form id="form-<?= $idutilizador ?>" action="eliminar_utilizador.php" method="POST" class="d-inline">
                                     <input type="hidden" name="idutilizador" value="<?= $idutilizador ?>">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmarExclusao(<?= $idutilizador ?>)">
-                                    <i class="bi bi-trash3-fill"></i>Eliminar
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                                    <input type="hidden" name="acao" value="<?= $ativo ? 'desativar' : 'reativar' ?>">
+                                    <button type="button" class="btn <?= $ativo ? 'btn-danger' : 'btn-success' ?> btn-sm" onclick="confirmarExclusao(<?= $idutilizador ?>, <?= $ativo ? 'true' : 'false' ?>)">
+                                    <i class="bi <?= $ativo ? 'bi-person-dash' : 'bi-person-check' ?>"></i><?= $ativo ? 'Desativar' : 'Reativar' ?>
                                     </button>
                                 </form>
                             <?php else : ?>
@@ -72,13 +76,13 @@ require_once("comum.php");
     </div>
 
     <script>
-        function confirmarExclusao(id) {
+        function confirmarExclusao(id, ativo) {
             Swal.fire({
-                title: "Tem certeza que deseja eliminar o utilizador?",
-                text: "Esta ação não pode ser desfeita!",
+                title: ativo ? "Desativar utilizador?" : "Reativar utilizador?",
+                text: ativo ? "A conta será desativada, mantendo o histórico." : "A conta poderá voltar a iniciar sessão.",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: "Sim, eliminar",
+                confirmButtonText: ativo ? "Sim, desativar" : "Sim, reativar",
                 cancelButtonText: "Cancelar",
                 confirmButtonColor: "#d33",
                 cancelButtonColor: "#6c757d"

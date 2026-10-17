@@ -1,6 +1,8 @@
 <?php
+require_once "verificar_sessao.php";
 include_once("comum.php");
 include_once('metadados.php');
+if ((int)($_SESSION['tipo'] ?? -1) !== 0) { http_response_code(403); exit('Sem permissão'); }
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +21,7 @@ include_once('metadados.php');
 <div id="login" class="d-flex justify-content-center align-items-center vh-100">
 
     <form action="inserir.php" class="card shadow-lg p-4" method="POST" style="min-width: 400px;">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
         <div class="card-header text-center mb-3">
             <h2 class="text-primary"><i class="bi bi-person-plus-fill me-2"></i>Inserir Utilizador</h2>
         </div>

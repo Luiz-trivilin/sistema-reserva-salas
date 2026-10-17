@@ -26,6 +26,7 @@ include_once('comum.php');
     <div class="container mt-5">
         <div class="card card-custom">
             <form action="marcar_sala.php" method="post" id="formulario">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                 <input type="hidden" id="id_sala" name="id_sala" value="">
                 <input type="hidden" id="id_horario" name="id_horario" value="">
                 <input type="hidden" id="dia_click" name="dia_click" value="<?php echo $_POST['dia_post'] ?>">

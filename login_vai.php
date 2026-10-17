@@ -4,7 +4,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); exit; }
 $user = strtolower(trim((string)($_POST['utilizador'] ?? '')));
 $pass = (string)($_POST['pass'] ?? '');
-$rs = consultarBD('SELECT password,tipo,numfuncionario FROM utilizador WHERE nomecompleto = ?', [$user]);
+$rs = consultarBD('SELECT password,tipo,numfuncionario FROM utilizador WHERE nomecompleto = ? AND valido = 1', [$user]);
 if (count($rs) === 1 && password_verify($pass, $rs[0]['password'])) {
     session_regenerate_id(true);
     $_SESSION['idutilizador'] = $rs[0]['numfuncionario'];

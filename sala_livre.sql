@@ -60,8 +60,7 @@ CREATE TABLE `marcacao` (
   `id_sala` int NOT NULL,
   `id_horario` int NOT NULL,
   `data_marcada` date NOT NULL,
-  `id_utilizador` int DEFAULT NULL,
-  `Marcacao` date NOT NULL
+  `id_utilizador` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -126,7 +125,8 @@ CREATE TABLE `utilizador` (
   `numfuncionario` int NOT NULL,
   `nomecompleto` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL,
-  `tipo` int DEFAULT NULL
+  `tipo` int DEFAULT NULL,
+  `valido` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -144,8 +144,8 @@ ALTER TABLE `horario_escola`
 -- Índices para tabela `marcacao`
 --
 ALTER TABLE `marcacao`
-  ADD PRIMARY KEY (`id_sala`,`id_horario`,`Marcacao`),
-  ADD KEY `idx_id` (`id`),
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_reserva_sala_horario_data` (`id_sala`,`id_horario`,`data_marcada`),
   ADD KEY `id_utilizador` (`id_utilizador`);
 
 --

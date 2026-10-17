@@ -1,7 +1,9 @@
 <?php
-include("verificar_sessao.php");
-include("comum.php");
-include("metadados.php");
+
+require_once 'verificar_sessao.php';
+require_once 'comum.php';
+require_once 'metadados.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -31,10 +33,10 @@ include("metadados.php");
             <select id="professor" name="professor" class="form-select">
                 <option value="" id="default-option" style="display: none;">-- Selecione o Professor --</option>
                 <?php
-                $sql = 'select nomecompleto,numfuncionario,tipo from utilizador';
+                $sql = 'select nomecompleto,numfuncionario,tipo,Valido from utilizador';
                 $rs = consultarBD($sql);
                 foreach ($rs as $registo) {
-                    if($registo['tipo'] === 1){
+                    if((int)$registo['tipo'] === 1 && (int)$registo['Valido'] === 1){
                         echo '<option value="' . $registo['numfuncionario'] . '">' . $registo['nomecompleto'] . '</option>';
                     }
                 }
@@ -53,6 +55,7 @@ include("metadados.php");
                         <th scope="col"><i class="bi bi-pencil-fill"></i> Editar</th>
                     </tr>
                     <form id="eliminar" action="eliminar.php" method="POST">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                         <input id="id_marcacao" name="id_marcacao" type="hidden" value="">
                     </form>
                     <form id="alterar" action="editar_ver.php" method="POST">

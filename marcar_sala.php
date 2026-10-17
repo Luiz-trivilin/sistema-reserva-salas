@@ -2,6 +2,8 @@
 require_once 'verificar_sessao.php';
 require_once 'comum.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); exit; }
+if (!in_array((int)($_SESSION['tipo'] ?? -1), [0, 1], true)) { http_response_code(403); exit('Sem permissão'); }
+validarCSRF();
 $sala = filter_input(INPUT_POST,'id_sala',FILTER_VALIDATE_INT);
 $horario = filter_input(INPUT_POST,'id_horario',FILTER_VALIDATE_INT);
 $d = filter_input(INPUT_POST,'dia_click',FILTER_VALIDATE_INT);

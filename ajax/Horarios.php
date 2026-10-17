@@ -1,39 +1,16 @@
 <?php
-include("../comum.php");
+require_once '../verificar_sessao.php';
+require_once '../comum.php';
+header('Content-Type: application/json; charset=utf-8');
 date_default_timezone_set('Europe/Lisbon');
-    
-if (isset($_POST['id_sala'])) {
-    $id_sala = $_POST['id_sala'];
-    $data_marcacao = $_POST['data_marcada'];
-    $id_horario_atual = $_POST['id_horario_atual'];
-
-
-    $hoje = date("Y-m-d");
-    $hora = date("H:i:s");
-    if($data_marcacao == $hoje){
-        $sql = "SELECT * FROM horario_escola 
-                WHERE id_horario NOT IN (
-                    SELECT id_horario FROM marcacao WHERE id_sala = $id_sala
-                ) AND horario_fim > '$hora'";
-    }else{
-        $sql = "SELECT * FROM horario_escola 
-        WHERE id_horario NOT IN (
-            SELECT id_horario FROM marcacao WHERE id_sala = $id_sala
-        )";
-    }
-
-    if ($id_horario_atual) {
-        $sql .= " AND id_horario != ".$id_horario_atual."";
-    }
-
-    $sql .= ";";
-
-    //echo $sql;
-    //return;
-
-    $horarios = consultarBD($sql);
-
-    // Retornar os horários como JSON
-    echo json_encode($horarios);
+$sala = filter_input(INPUT_POST, 'id_sala', FILTER_VALIDATE_INT);
+$atual = filter_input(INPUT_POST, 'id_horario_atual', FILTER_VALIDATE_INT);
+$data = (string)($_POST['data_marcada'] ?? '');
+if (!$sala || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $data) || !checkdate((int)substr($data,5,2),(int)substr($data,8,2),(int)substr($data,0,4))) {
+    http_response_code(400); echo '[]'; exit;
 }
-?>
+$sql = 'SELECT * FROM horario_escola WHERE id_horario NOT IN (SELECT id_horario FROM marcacao WHERE id_sala=? AND data_marcada=?)';
+$params = [$sala, $data];
+if ($data === date('Y-m-d')) { $sql .= ' AND horario_fim > ?'; $params[] = date('H:i:s'); }
+if ($atual) { $sql .= ' AND id_horario != ?'; $params[] = $atual; }
+echo json_encode(consultarBD($sql, $params));

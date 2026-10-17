@@ -3,15 +3,23 @@
 include_once("verificar_sessao.php");
 include_once("comum.php");
 include_once("metadados.php");
+if (!in_array((int)($_SESSION['tipo'] ?? -1), [0, 1], true)) { http_response_code(403); exit('Sem permissão'); }
 
 $day = date('Y-m-d');
 
-$id_marcacao_atual = (int)($_POST['id_marcacao_editar'] ?? 0);
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') { http_response_code(405); exit; }
+$id_marcacao_atual = filter_input(INPUT_POST, 'id_marcacao_editar', FILTER_VALIDATE_INT);
+if (!$id_marcacao_atual) { http_response_code(400); exit('ID da marcação inválido'); }
 
-$sql = "SELECT data_marcada FROM marcacao WHERE id = ?";
-$resultado = consultarBD($sql, [$id_marcacao_atual]);
-
-$data_final = $resultado[0]['data_marcada'] ?? '';
+// Um professor só pode consultar e editar as próprias reservas.
+if ((int)$_SESSION['tipo'] === 1) {
+    $resultado = consultarBD('SELECT data_marcada FROM marcacao WHERE id = ? AND id_utilizador = ?',
+        [$id_marcacao_atual, (int)$_SESSION['idutilizador']]);
+} else {
+    $resultado = consultarBD('SELECT data_marcada FROM marcacao WHERE id = ?', [$id_marcacao_atual]);
+}
+if (!$resultado) { http_response_code(403); exit('Marcação não encontrada ou sem permissão'); }
+$data_final = $resultado[0]['data_marcada'];
 ?>
 
 <!DOCTYPE html>
@@ -85,6 +93,7 @@ $data_final = $resultado[0]['data_marcada'] ?? '';
               name="editar_form"
               action="editar.php"
               method="POST">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
 
             <!-- Campos ocultos -->
             <input id="marcacao_id"
@@ -204,18 +213,16 @@ $data_final = $resultado[0]['data_marcada'] ?? '';
                                         </option>
 
                                         <?php
-                                        $sql = 'SELECT * FROM utilizador';
+                                        $sql = 'SELECT numfuncionario, nomecompleto FROM utilizador WHERE tipo = 1 AND valido = 1';
                                         $rs = consultarBD($sql);
 
                                         foreach ($rs as $registo) {
-                                            if ($registo['tipo'] == 1) {
-                                                if ($registo['numfuncionario'] != ($_POST['id_professor'] ?? null)) {
+                                            if ($registo['numfuncionario'] != ($_POST['id_professor'] ?? null)) {
                                                     echo '<option value="' .
                                                         htmlspecialchars($registo['numfuncionario']) .
                                                         '">' .
                                                         htmlspecialchars($registo['nomecompleto']) .
                                                         '</option>';
-                                                }
                                             }
                                         }
                                         ?>

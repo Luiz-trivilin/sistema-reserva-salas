@@ -11,7 +11,7 @@
         $sql = ' SELECT
             marcacao.id,
             marcacao.id_utilizador,
-            marcacao.Marcacao,
+            marcacao.data_marcada,
             utilizador.tipo,
             utilizador.nomecompleto,
             utilizador.numfuncionario,
@@ -24,7 +24,7 @@
         INNER JOIN salas ON marcacao.id_sala = salas.id_sala
         INNER JOIN horario_escola ON marcacao.id_horario = horario_escola.id_horario
         INNER JOIN utilizador ON marcacao.id_utilizador = utilizador.numfuncionario
-        WHERE marcacao.id_utilizador ='.$id_professor.' AND (marcacao.Marcacao >"'.$dia.'") OR (marcacao.Marcacao >"'.$dia.'" AND horario_escola.horario_fim >"'.$hora.'") ORDER BY salas.nomesala;
+        WHERE marcacao.id_utilizador ='.$id_professor.' AND (marcacao.data_marcada >"'.$dia.'") OR (marcacao.data_marcada >"'.$dia.'" AND horario_escola.horario_fim >"'.$hora.'") ORDER BY salas.nomesala;
         ';
 
         //echo $sql;

@@ -10,7 +10,7 @@
         $sql = ' SELECT
             marcacao.id,
             marcacao.id_utilizador,
-            marcacao.Marcacao,
+            marcacao.data_marcada,
             utilizador.tipo,
             utilizador.nomecompleto,
             utilizador.numfuncionario,
@@ -23,7 +23,7 @@
         INNER JOIN salas ON marcacao.id_sala = salas.id_sala
         INNER JOIN horario_escola ON marcacao.id_horario = horario_escola.id_horario
         INNER JOIN utilizador ON marcacao.id_utilizador = utilizador.numfuncionario
-        WHERE marcacao.id_utilizador ='.$id_professor.' ORDER BY marcacao.Marcacao;
+        WHERE marcacao.id_utilizador ='.$id_professor.' ORDER BY marcacao.data_marcada;
         ';
 
         $stmt = $conn->prepare($sql);

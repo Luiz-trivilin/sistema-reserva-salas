@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
                             <td>${marcacao.nomesala}</td> 
-                            <td>${formatar(marcacao.Marcacao)}</td>
+                            <td>${formatar(marcacao.data_marcada)}</td>
                             <td>${marcacao.horario_inicio.substring(0, 5)} - ${marcacao.horario_fim.substring(0, 5)}</td>`
                             
                             if (usuariologado == marcacao.id_utilizador || tipo == 0) {

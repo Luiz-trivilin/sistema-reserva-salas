@@ -1,130 +1,62 @@
-# \# Sistema de Gestão e Reserva de Salas
+# Sistema de Gestão e Reserva de Salas
 
-# 
+Projeto de Aptidão Profissional (PAP) desenvolvido no curso profissional de Gestão e Programação de Sistemas Informáticos.
 
-# Projeto desenvolvido como Prova de Aptidão Profissional (PAP) do curso de Gestão e Programação de Sistemas Informáticos, concluído em 2025.
+## Sobre
+Aplicação web de gestão e marcação de salas, com login, calendário, perfis de utilizador e consulta/gestão de reservas.
 
-# 
+## Tecnologias
+PHP, MySQL (PDO), JavaScript, HTML, CSS, Bootstrap e jQuery.
 
-# \## Sobre o projeto
+## Funcionalidades presentes no código
+- Autenticação com `password_verify()` e sessão PHP;
+- Consulta do calendário e horários;
+- Criação, edição e remoção de reservas;
+- Gestão de utilizadores e histórico.
 
-# 
+## Como executar localmente
+1. Instalar PHP 8.x com extensão `pdo_mysql` e MySQL 8.x (ou ambiente local equivalente).
+2. Criar uma base de dados chamada `sala_livre` e importar `sala_livre.sql`.
+3. Na pasta principal do projeto, criar um ficheiro chamado `config.local.php` com os dados locais da base de dados:
 
-# Aplicação web desenvolvida para facilitar a organização e reserva de salas e laboratórios escolares.
+   ```php
+   <?php
+   return [
+       'DB_HOST' => '127.0.0.1',
+       'DB_NAME' => 'sala_livre',
+       'DB_USER' => 'root',
+       'DB_PASSWORD' => 'A_TUA_PASSWORD_LOCAL',
+   ];
+   ```
 
-# 
+   Substituir o valor de `DB_PASSWORD` pela password local do MySQL (e os restantes valores, se forem diferentes). **Nunca publicar `config.local.php` ou passwords reais no GitHub.** Como alternativa, a aplicação suporta as variáveis de ambiente `DB_HOST`, `DB_NAME`, `DB_USER` e `DB_PASSWORD`.
+4. Iniciar o servidor local na pasta do projeto, por exemplo `php -S localhost:8000`, e abrir `http://localhost:8000/_index.php`.
+5. Criar um utilizador inicial no MySQL com uma password gerada por `php -r 'echo password_hash("ALTERAR_PASSWORD", PASSWORD_DEFAULT), PHP_EOL;'`; atribuir `tipo=0` para administrador. Nunca reutilizar passwords de produção.
 
-# O sistema permite consultar horários, gerir reservas e controlar as funcionalidades disponíveis através de diferentes perfis de utilizador.
+## Preparação para GitHub
+O histórico `.git` antigo e os registos originais da base de dados não fazem parte desta cópia. As credenciais da base de dados são configuradas localmente através de `config.local.php` ou variáveis de ambiente, e vários acessos SQL usam parâmetros.
 
-# 
+## Limitações / segurança
+Esta é uma **versão de portfólio académico, não auditada para produção**. Foi feita uma revisão estática e verificação de sintaxe, mas **não foram executados testes de ponta a ponta com MySQL**. Antes de disponibilizar a aplicação publicamente, rever as rotas AJAX, validar permissões por função, testar proteção CSRF e regras de agendamento, tratar erros, rever a exposição de dados e realizar testes de segurança.
 
-# \## Tecnologias utilizadas
+## Autor
+Luiz Trivilin — Projeto académico (PAP).
 
-# 
+## Capturas de ecrã
 
-# \- PHP — Desenvolvimento backend
+### Autenticação
+![Página de login](screenshots/login.png)
 
-# \- MySQL — Base de dados relacional
+### Calendário de reservas
+![Calendário de reservas de salas](screenshots/calendario.png)
 
-# \- JavaScript — Funcionalidades interativas
+### Consulta de marcações
+![Consulta de reservas de um professor](screenshots/consulta-reservas.png)
 
-# \- HTML5 e CSS3 — Estrutura e apresentação
+### Edição de marcações
+![Edição de sala e horário](screenshots/editar-marcacao.png)
 
-# \- Bootstrap — Interface responsiva
+### Gestão de marcações pelo administrador
+![Edição de sala, horário e professor](screenshots/editar-marcacao-administrador.png)
 
-# \- PDO — Comunicação com a base de dados
-
-# 
-
-# \## Funcionalidades
-
-# 
-
-# \- Autenticação de utilizadores
-
-# \- Gestão de administradores, professores e alunos
-
-# \- Reserva de salas e consulta de horários
-
-# \- Edição e cancelamento de marcações
-
-# \- Consulta do histórico de reservas
-
-# \- Verificação de disponibilidade
-
-# \- Desativação e reativação de contas sem apagar o histórico
-
-# \- Controlo de acesso de acordo com o perfil
-
-# 
-
-# \## Perfis de utilizador
-
-# 
-
-# | Perfil | Funcionalidades |
-
-# |---|---|
-
-# | Administrador | Gestão de utilizadores e administração do sistema |
-
-# | Professor | Realização e gestão de reservas autorizadas |
-
-# | Aluno | Consulta de horários |
-
-# 
-
-# \## Instalação local
-
-# 
-
-# \*\*Requisitos:\*\* PHP, MySQL e um servidor local, como AMPPS ou XAMPP.
-
-# 
-
-# 1\. Colocar a pasta do projeto no diretório do servidor local.
-
-# 2\. Criar uma base de dados MySQL.
-
-# 3\. Importar o ficheiro `sala\_livre.sql`, numa base de dados de teste.
-
-# 4\. Criar manualmente um ficheiro `config.local.php` na pasta principal.
-
-# 5\. Configurar nesse ficheiro os dados de ligação à base de dados, de acordo com a estrutura esperada pelo `comum.php`.
-
-# 6\. Iniciar o Apache e o MySQL.
-
-# 7\. Aceder à aplicação através de `http://localhost/sistema-reserva-salas/`.
-
-# 
-
-# \*\*Nota:\*\* o ficheiro `config.local.php` contém informações privadas e não deve ser publicado no GitHub.
-
-# 
-
-# \## Segurança
-
-# 
-
-# O projeto utiliza autenticação com passwords protegidas por hash, consultas parametrizadas e verificações de permissões.
-
-# 
-
-# Foi desenvolvido para fins académicos e de portfólio, não estando validado para utilização em produção.
-
-# 
-
-# \## Autor
-
-# 
-
-# \*\*Luiz Trivilin\*\*
-
-# 
-
-# Curso Profissional de Gestão e Programação de Sistemas Informáticos — 2025
-
-# 
-
-# \[GitHub](https://github.com/Luiz-trivilin)
 
